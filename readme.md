@@ -5,6 +5,12 @@ Open, flexible, data-centric. Go beyond traditional building management system f
 To learn more, see [EcoStruxure Building](https://www.se.com/ww/en/work/products/product-launch/building-management-system/)
 
 EcoStruxure Building Operation Edge Server is subject to commercial licensing. Contact your local [Schneider Electric representative](https://www.se.com/ww/en/work/support/country-selector/distributors.jsp) for more information.
+
+## Raspberry Pi version
+This fork was created to enable compatibility with ARM-based platforms, such as Raspberry Pi, for the ghcr.io/schneiderelectricbuildings/ebo-enterprise-server project. By leveraging QEMU emulation (qemu-user-static and qemu-user-binfmt), it is now possible to run the original amd64 Docker image on aarch64 systems.
+
+These adjustments ensure that users can deploy and operate the server seamlessly on ARM devices without modifying the core application, making it more versatile for diverse hardware setups.
+
 ## How to use this image
 For full functionality, valid and activated licenses are required. See official Building Operation documentation for more information.
 
