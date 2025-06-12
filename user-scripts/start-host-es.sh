@@ -2,6 +2,12 @@
 # Simple helper to start Enterprise Server using host networking
 # After pulling the image, run this script to start the container
 
+# Ensure crash dump folder exists
+if [ ! -d /var/crash ]; then
+    echo "Creating /var/crash"
+    sudo mkdir -p /var/crash
+fi
+
 docker run -d --network host \
     --platform linux/amd64 \
     --ulimit core=-1 \
