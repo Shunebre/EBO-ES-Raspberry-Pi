@@ -91,7 +91,7 @@ ip ad
        valid_lft 1497sec preferred_lft 1497sec
     inet6 fe80::5f24:6a3e:43cc:c39f/64 scope link noprefixroute
        valid_lft forever preferred_lft forever
-# in this example the interface is enenp4s0
+# in this example the interface is enp4s0
 ```
 
 
@@ -99,7 +99,7 @@ ip ad
 Then you need to have a free IP address in that subnet to set as a static address for your container.
 
 ### EULA
-The End-User License Agrement (EULA) must be accepted before the server can start.  
+The End-User License Agreement (EULA) must be accepted before the server can start.
     The license terms for this product can be downloaded here: [EULA](https://ecostruxure-building-help.se.com/bms/Topics/Show.castle?id=14865)
 
 ### Start
@@ -109,9 +109,9 @@ Then to start your server:
 ```
 ./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes
 ```
-You can interact with the server via your browser: https://192.168.1.3/.  
-Initial user name: admin, password: admin  
-The version and IP are only examples.  
+You can interact with the server via your browser: https://192.168.1.3/.
+Initial user name: admin, password: admin
+The version and IP are only examples.
 By default the server type is an Edge Server.
 To start an Enterprise Server or Enterprise Central instead. add --type=ebo-enterprise-server or --type=ebo-enterprise-central
 
@@ -171,11 +171,11 @@ Or you could build your own image on top of our image with the certificates adde
 The CA certificates must have a .crt extension.
 .
 ## Proxy
-The script start.py (and upgrade.py) will pick up the the proxy environment variables from the host and pass them on to the container. If you want to use other settings you can supply them with these parameters:  
---http-proxy  
---https-proxy  
---no-proxy  
-The environment varibles are, http_proxy, https_proxy and no_proxy in both lower and upper case.
+The script start.py (and upgrade.py) will pick up the proxy environment variables from the host and pass them on to the container. If you want to use other settings you can supply them with these parameters:
+--http-proxy
+--https-proxy
+--no-proxy
+The environment variables are, http_proxy, https_proxy and no_proxy in both lower and upper case.
 
 
 ## In case of crash
@@ -221,7 +221,7 @@ If your container can't reach the dns setup on your host, for example because of
 
 To set server in Password Reset Mode, run the script with name and version as arguments.
 
- 
+
 
 ```
 ./password-reset-mode cs3 7.0.2.348
