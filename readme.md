@@ -31,11 +31,16 @@ sudo apt full-upgrade -y
 ```
 
 ```bash
-sudo apt install -y docker.io qemu-user-binfmt qemu-user-static
+sudo apt install -y docker.io
 ```
 
-L'ultima installazione (`docker.io`, `qemu-user-binfmt` e `qemu-user-static`)
-funziona solo se eseguita dopo il completamento dei comandi precedenti (docker-binfmt-static).
+```bash
+sudo apt install -y qemu-user-binfmt
+```
+
+```bash
+sudo apt install -y qemu-user-static
+```
 
 Verify the emulation with:
 ```bash
