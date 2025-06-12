@@ -41,9 +41,9 @@ def main():
     This script can restore both "ConfigurationOnly" backups
     and "AllData" (Configuration and historical)
     Like this with just a file name the restore uses a backup file already existing on the server
-    ./restore-backup-full AS1 5.0.0.618 Server1.xbk AllData
+    ./restore-backup-full AS1 7.0.2.348 Server1.xbk AllData
     Like this with a path, the backup file on the host is copied to the container for restore
-    ./restore-backup-full AS1 5.0.0.618 /home/user/Server1.xbk AllData
+    ./restore-backup-full AS1 7.0.2.348 /home/user/Server1.xbk AllData
 
     '''
     if exists(backup):
