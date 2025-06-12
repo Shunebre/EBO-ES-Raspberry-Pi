@@ -47,6 +47,16 @@ Verify the emulation with:
 docker run --rm --platform linux/amd64 hello-world
 ```
 
+## System Requirements
+
+The image for EcoStruxure Building Operation Enterprise Server is about
+697&nbsp;MB. Plan for at least a couple of gigabytes of free disk space to
+accommodate the container's database volume and log files. The server can run
+with as little as 1&nbsp;GB of RAM, but allocating 2&nbsp;GB or more is
+recommended. See Schneider Electric's
+[official hardware specifications](https://ecostruxure-building-help.se.com/) for
+complete details.
+
 ## How to use this image
 For full functionality, valid and activated licenses are required. See official Building Operation documentation for more information.
 
