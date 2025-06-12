@@ -152,13 +152,14 @@ To start an Enterprise Server or Enterprise Central instead. add --type=ebo-ente
 
 If you prefer running Docker directly:
 ```bash
-docker run -d --network host \
-    --platform linux/amd64 \
+docker run -d --platform linux/amd64 --name=cs3 -h cs3 \
     --ulimit core=-1 \
     --restart always \
+    --network bridged-net \
     --mount type=bind,source=/var/crash,target=/var/crash \
     -e NSP_ACCEPT_EULA="Yes" \
-    --mount source=EnterpriseServer-db,target=/var/EBO \
+    --ip 192.168.1.3 \
+    --mount source=cs3-db,target=/var/sbo \
     ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
 ```
 
