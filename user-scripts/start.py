@@ -75,7 +75,7 @@ def run():
         if "NO_PROXY" in os.environ:
             proxy += f'-e NO_PROXY={os.environ["NO_PROXY"]} '
 
-    cmd = f'docker run -d --name={name} -h {name} ' \
+    cmd = f'docker run -d --platform linux/amd64 --name={name} -h {name} ' \
         '--ulimit core=-1 ' \
         '--restart always ' \
         '--network bridged-net ' \

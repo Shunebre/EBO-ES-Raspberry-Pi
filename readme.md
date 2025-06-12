@@ -7,13 +7,28 @@ To learn more, see [EcoStruxure Building](https://www.se.com/ww/en/work/products
 EcoStruxure Building Operation Edge Server is subject to commercial licensing. Contact your local [Schneider Electric representative](https://www.se.com/ww/en/work/support/country-selector/distributors.jsp) for more information.
 
 ## Raspberry Pi version
-This fork was created to enable compatibility with ARM-based platforms, such as Raspberry Pi, for the ghcr.io/schneiderelectricbuildings/ebo-enterprise-server project. By leveraging QEMU emulation (qemu-user-static and qemu-user-binfmt), it is now possible to run the original amd64 Docker image on aarch64 systems.
+This repository is tailored to run Schneider Electric Enterprise Server on Raspberry Pi OS. By leveraging QEMU emulation (`qemu-user-static` and `qemu-user-binfmt`), it is possible to use the official amd64 Docker image on an aarch64 board without modification.
 
-These adjustments ensure that users can deploy and operate the server seamlessly on ARM devices without modifying the core application, making it more versatile for diverse hardware setups.
+These adjustments allow you to deploy and operate the server seamlessly on ARM hardware.
+
+The examples below use Enterprise Server version `7.0.2.348`.
 
 To download the Enterprise Server image run:
 ```
 docker pull ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+```
+
+### Dependencies
+Install Docker and QEMU emulation support so the amd64 image works on Raspberry Pi OS:
+```bash
+sudo apt update -y
+sudo apt full-upgrade -y
+sudo apt install -y docker.io qemu-user-binfmt qemu-user-static
+```
+
+Verify the emulation with:
+```bash
+docker run --rm --platform linux/amd64 hello-world
 ```
 
 ## How to use this image
@@ -83,6 +98,18 @@ Initial user name: admin, password: admin
 The version and IP are only examples.  
 By default the server type is an Edge Server.
 To start an Enterprise Server or Enterprise Central instead. add --type=ebo-enterprise-server or --type=ebo-enterprise-central
+
+If you prefer running Docker directly:
+```bash
+docker run -d --network host \
+    --platform linux/amd64 \
+    --ulimit core=-1 \
+    --restart always \
+    --mount type=bind,source=/var/crash,target=/var/crash \
+    -e NSP_ACCEPT_EULA="Yes" \
+    --mount source=cs3-db,target=/var/sbo \
+    ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+```
 
 ### Upgrade
 To upgrade the server, use the same parameters as for start, but with the new version.
