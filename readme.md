@@ -53,6 +53,25 @@ For full functionality, valid and activated licenses are required. See official 
 To manage the containers we do provide a few docker scripts to use as is or to draw inspiration from:
 [user-scripts](./user-scripts)
 
+After downloading the image with `docker pull`, start the Enterprise Server
+using the provided script or the command shown below.
+
+```bash
+./user-scripts/start-host-es.sh
+```
+
+This script simply runs:
+```bash
+docker run -d --network host \
+    --platform linux/amd64 \
+    --ulimit core=-1 \
+    --restart always \
+    --mount type=bind,source=/var/crash,target=/var/crash \
+    -e NSP_ACCEPT_EULA="Yes" \
+    --mount source=EnterpriseServer-db,target=/var/EBO \
+    ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+```
+
 ### Network
 We recommend that you use this container with an IPvlan network. This to give the container its own IP address on the local network for simple communication with for example BACnet devices on the same network.
 
@@ -123,7 +142,7 @@ docker run -d --network host \
     --restart always \
     --mount type=bind,source=/var/crash,target=/var/crash \
     -e NSP_ACCEPT_EULA="Yes" \
-    --mount source=cs3-db,target=/var/sbo \
+    --mount source=EnterpriseServer-db,target=/var/EBO \
     ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
 ```
 
