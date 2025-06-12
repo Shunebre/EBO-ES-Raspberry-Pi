@@ -69,7 +69,13 @@ docker run -d --network host \
     --mount type=bind,source=/var/crash,target=/var/crash \
     -e NSP_ACCEPT_EULA="Yes" \
     --mount source=EnterpriseServer-db,target=/var/EBO \
-    ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+```
+
+Before running the script, make sure `/var/crash` exists on the host:
+
+```bash
+sudo mkdir -p /var/crash
 ```
 
 ### Network
