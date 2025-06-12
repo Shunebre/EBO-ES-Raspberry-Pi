@@ -11,6 +11,11 @@ This fork was created to enable compatibility with ARM-based platforms, such as 
 
 These adjustments ensure that users can deploy and operate the server seamlessly on ARM devices without modifying the core application, making it more versatile for diverse hardware setups.
 
+To download the Enterprise Server image run:
+```
+docker pull ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
+```
+
 ## How to use this image
 For full functionality, valid and activated licenses are required. See official Building Operation documentation for more information.
 
@@ -71,7 +76,7 @@ The End-User License Agrement (EULA) must be accepted before the server can star
 
 Then to start your server:
 ```
-./start.py --name=cs3 --version=5.0.0.1082 --ip=192.168.1.3 --type=ebo-edge-server --accept-eula=Yes
+./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes
 ```
 You can interact with the server via your browser: https://192.168.1.3/.  
 Initial user name: admin, password: admin  
@@ -83,7 +88,7 @@ To start an Enterprise Server or Enterprise Central instead. add --type=ebo-ente
 To upgrade the server, use the same parameters as for start, but with the new version.
 
 ```
-./upgrade.py --name=cs3 --version=5.0.0.1090 --ip=192.168.1.3 --type=ebo-edge-server --accept-eula=Yes
+./upgrade.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes
 ```
 The version and IP are only examples
 ### Backup management
@@ -92,7 +97,7 @@ There are also three scripts for backup management, for more details look in the
 list-backups
 ```
 ./list-backups cs3
-Server 1 2022-09-09 14_12_36_5.0.0.1082.xbk
+Server 1 2022-09-09 14_12_36_7.0.2.348.xbk
 ```
 
 copy-backups
@@ -109,9 +114,9 @@ Can be used with a backup file on the host machine or one of the backup files li
 ```
 # With just the name of the backup if you want to use the backup already available in the container
 # note that you need to escape spaces in the backup name
-./restore-backup cs3 5.0.0.82 Server\ 1\ 2022-09-09\ 14_12_36_5.0.0.1082.xbk ConfigurationOnly
+./restore-backup cs3 7.0.2.348 Server\ 1\ 2022-09-09\ 14_12_36_7.0.2.348.xbk ConfigurationOnly
 # Or with a path to a backup on the host if you want to use a backup from the host
-./restore-backup cs3 5.0.0.82 /home/user/Server\ 1\ 2022-09-09\ 14_12_36_5.0.0.1082.xbk ConfigurationOnly
+./restore-backup cs3 7.0.2.348 /home/user/Server\ 1\ 2022-09-09\ 14_12_36_7.0.2.348.xbk ConfigurationOnly
 ```
 
 ## CA certificates
@@ -176,7 +181,7 @@ To set server in Password Reset Mode, run the script with name and version as ar
  
 
 ```
-./password-reset-mode cs3 5.0.1.128
+./password-reset-mode cs3 7.0.2.348
 ```
 
 ## A few useful docker commands
@@ -212,13 +217,13 @@ docker volume rm cs1-db
 ```
 If you want to play with a server without the need to talk to devices you can start it with port forwarding like this:
 ```
-docker run -d --name=cs1 -hostname=cs1 -p 1080:80 -p 1443:443 -p14444:4444 -e NSP_ACCEPT_EULA=Yes ghcr.io/schneiderelectricbuildings/ebo-edge-server:5.0.0.1220
+docker run -d --name=cs1 -hostname=cs1 -p 1080:80 -p 1443:443 -p14444:4444 -e NSP_ACCEPT_EULA=Yes ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
 ```
 In this example you can connect to it on:
 https://localhost:1443
 The http-port is 1080 on the host machine.
 The tcp-port is 14444 on the host machine.
-It runs the example version 5.0.0.1220.
+It runs the example version 7.0.2.348.
 It is namned cs1.
 
 ## GraphDB
