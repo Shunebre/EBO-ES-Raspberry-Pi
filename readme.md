@@ -72,7 +72,7 @@ using the provided script or the command shown below.
 
 This script simply runs:
 ```bash
-docker run -d --network host \
+docker run -d --network bridged-net \
     --platform linux/amd64 \
     --ulimit core=-1 \
     --restart always \

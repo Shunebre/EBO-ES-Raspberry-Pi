@@ -1,5 +1,5 @@
 #!/bin/bash
-# Simple helper to start Enterprise Server using host networking
+# Simple helper to start Enterprise Server using the bridged-net network
 # After pulling the image, run this script to start the container
 
 # Ensure crash dump folder exists
@@ -8,7 +8,7 @@ if [ ! -d /var/crash ]; then
     sudo mkdir -p /var/crash
 fi
 
-docker run -d --network host \
+docker run -d --network bridged-net \
     --platform linux/amd64 \
     --ulimit core=-1 \
     --restart always \
