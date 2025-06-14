@@ -133,6 +133,55 @@ ip ad
 
 Then you need to have a free IP address in that subnet to set as a static address for your container.
 
+### Host ↔ Container communication
+With a network created using `create-bridged-network` the host cannot
+communicate with containers by default. Create a macvlan interface on the
+Raspberry Pi so that the host and containers share the same LAN.
+
+```bash
+sudo ip link add mac0 link eth0 type macvlan mode bridge
+sudo ip addr add 192.168.1.254/24 dev mac0
+sudo ip link set mac0 up
+```
+
+Verify connectivity:
+
+```bash
+# from the Pi
+ping -c3 192.168.1.11
+
+# from the container
+docker exec -it bacnet_client ping -c3 192.168.1.10
+```
+
+To make the interface persistent with `systemd-networkd` create
+`/etc/systemd/network/99-macvlan.netdev`:
+
+```ini
+[NetDev]
+Name=mac0
+Kind=macvlan
+
+[MACVLAN]
+Mode=bridge
+```
+
+and `/etc/systemd/network/99-macvlan.network`:
+
+```ini
+[Match]
+Name=mac0
+
+[Network]
+Address=192.168.1.254/24
+```
+
+Then restart networkd:
+
+```bash
+sudo systemctl restart systemd-networkd
+```
+
 ### EULA
 The End-User License Agreement (EULA) must be accepted before the server can start.
     The license terms for this product can be downloaded here: [EULA](https://ecostruxure-building-help.se.com/bms/Topics/Show.castle?id=14865)
