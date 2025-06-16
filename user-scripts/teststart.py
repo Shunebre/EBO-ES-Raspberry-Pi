@@ -78,9 +78,17 @@ def run():
             proxy += f'-e NO_PROXY={os.environ["NO_PROXY"]} '
 
     if args.swarm:
+        platform_option = ''
+        try:
+            help_text = exe('docker service create --help')
+            if '--platform' in help_text:
+                platform_option = '--platform linux/amd64 '
+        except Exception:
+            pass
+
         cmd = f'docker service create --name={name} --hostname {name} ' \
             '--network bridged-net ' \
-            '--platform linux/amd64 ' \
+            f'{platform_option}' \
             f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
             f'-e Semantic_Db_URL="{graphdb}" ' \
             f'{proxy}'\
