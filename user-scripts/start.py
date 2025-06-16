@@ -34,6 +34,7 @@ def get_arguments(description):
         "if not given the host environment variables https_proxy or HTTPS_PROXY will be used ")
     parser.add_argument('--no-proxy', default=None, help="optional no proxy " \
         "if not given the host environment variables no_proxy or NO_PROXY will be used ")
+    parser.add_argument('--swarm', action='store_true', help='create a Docker service instead of a standalone container')
     return parser.parse_args()
 
 def run():
@@ -75,19 +76,29 @@ def run():
         if "NO_PROXY" in os.environ:
             proxy += f'-e NO_PROXY={os.environ["NO_PROXY"]} '
 
-    cmd = f'docker run -d --platform linux/amd64 --name={name} -h {name} ' \
-        '--ulimit core=-1 ' \
-        '--restart always ' \
-        '--network bridged-net ' \
-        f'--mount type=bind,source=/var/crash,target=/var/crash ' \
-        f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
-        f'-e Semantic_Db_URL="{graphdb}" ' \
-        f'{proxy}'\
-        f'--ip {ip} ' \
-        f'--mount source={db_vol},target={db_folder} '
+    if args.swarm:
+        cmd = f'docker service create --name={name} --hostname {name} ' \
+            '--network bridged-net ' \
+            '--platform linux/amd64 ' \
+            f'--mount type=bind,source=/var/crash,target=/var/crash ' \
+            f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
+            f'-e Semantic_Db_URL="{graphdb}" ' \
+            f'{proxy}'\
+            f'--mount source={db_vol},target={db_folder} '
+    else:
+        cmd = f'docker run -d --platform linux/amd64 --name={name} -h {name} ' \
+            '--ulimit core=-1 ' \
+            '--restart always ' \
+            '--network bridged-net ' \
+            f'--mount type=bind,source=/var/crash,target=/var/crash ' \
+            f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
+            f'-e Semantic_Db_URL="{graphdb}" ' \
+            f'{proxy}'\
+            f'--ip {ip} ' \
+            f'--mount source={db_vol},target={db_folder} '
     if ca_folder:
         cmd += f'--mount type=bind,source={ca_folder},target=/usr/local/share/ca-certificates '
-    if dns:
+    if dns and not args.swarm:
         cmd += f'--dns {dns} '
     cmd += image
     exe(cmd)
