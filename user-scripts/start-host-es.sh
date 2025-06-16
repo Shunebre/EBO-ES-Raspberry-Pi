@@ -10,10 +10,15 @@ fi
 
 if [ "$1" = "--swarm" ]; then
     shift
+    if docker service create --help 2>&1 | grep -q -- "--platform"; then
+        PLATFORM_OPTION="--platform linux/amd64"
+    else
+        PLATFORM_OPTION=""
+    fi
     docker service create --name enterprise-server \
         --hostname enterprise-server \
         --network bridged-net \
-        --platform linux/amd64 \
+        $PLATFORM_OPTION \
         --mount type=bind,source=/var/crash,target=/var/crash \
         -e NSP_ACCEPT_EULA="Yes" \
         --mount source=EnterpriseServer-db,target=/var/EBO \
