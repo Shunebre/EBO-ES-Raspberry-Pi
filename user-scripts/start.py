@@ -19,7 +19,7 @@ def get_arguments(description):
     parser.add_argument('--version', '-v', required=True, help='version of server to start')
     parser.add_argument('--ip', '-i', required=True, help='ip address of the container')
     parser.add_argument('--graphdb', '-g', required=False, default=f'', help='the url to reach GraphDB')
-    parser.add_argument('--type', '-t', required=False, default='ebo-edge-server', help='type of server, defaults to ebo-edge-server, other values are: ebo-enterprise-server or ebo-enterprise-central')
+    parser.add_argument('--type', '-t', required=False, default='ebo-enterprise-server', help='type of server, defaults to ebo-enterprise-server, other values are: ebo-edge-server or ebo-enterprise-central')
     parser.add_argument('--accept-eula', required=True, help='''for the server to
      start you need to accept eula.
     To accept use: --accept-eula=Yes
@@ -38,7 +38,7 @@ def get_arguments(description):
     return parser.parse_args()
 
 def run():
-    args = get_arguments('start EBO CS container.')
+    args = get_arguments('start EBO container.')
     name = args.name
     version = args.version
     ip = args.ip
@@ -52,7 +52,7 @@ def run():
     no_proxy=args.no_proxy
     image = f'ghcr.io/schneiderelectricbuildings/{server_type}:{version}'
     db_vol = f'{name}-db'
-    db_folder = '/var/sbo'
+    db_folder = '/var/ebo'
     proxy = ''
     if http_proxy:
         proxy += f'-e http_proxy={http_proxy} '
