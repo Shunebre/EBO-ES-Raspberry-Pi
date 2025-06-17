@@ -28,6 +28,7 @@ def get_arguments(description):
         'containers get their ca certificates')
     parser.add_argument('--dns', default=None, help="optional dns server" \
         "address for when container can't reach host dns, because of, for example, VPN")
+    parser.add_argument('--network', default='bridged-net', help='Docker network to attach to')
     parser.add_argument('--http-proxy', default=None, help="optional http proxy " \
         "if not given the host environment variables http_proxy or HTTP_PROXY will be used ")
     parser.add_argument('--https-proxy', default=None, help="optional https proxy " \
@@ -46,6 +47,7 @@ def run():
     ca_folder = args.ca_folder
     graphdb = args.graphdb
     server_type = args.type
+    network = args.network
     dns = args.dns
     http_proxy=args.http_proxy
     https_proxy=args.https_proxy
@@ -86,7 +88,7 @@ def run():
             pass
 
         cmd = f'docker service create --name={name} --hostname {name} ' \
-            '--network bridged-net ' \
+            f'--network {network} ' \
             f'{platform_option}' \
             f'--mount type=bind,source=/var/crash,target=/var/crash ' \
             f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
@@ -97,7 +99,7 @@ def run():
         cmd = f'docker run -d --platform linux/amd64 --name={name} -h {name} ' \
             '--ulimit core=-1 ' \
             '--restart always ' \
-            '--network bridged-net ' \
+            f'--network {network} ' \
             f'--mount type=bind,source=/var/crash,target=/var/crash ' \
             f'-e NSP_ACCEPT_EULA="{accept_eula}" ' \
             f'-e Semantic_Db_URL="{graphdb}" ' \
