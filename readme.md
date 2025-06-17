@@ -67,12 +67,12 @@ After downloading the image with `docker pull`, start the Enterprise Server
 using the provided script or the command shown below.
 
 ```bash
-./user-scripts/start-host-es.sh [--swarm]
+./user-scripts/start-host-es.sh [--swarm] [--network <net>]
 ```
 
 This script simply runs:
 ```bash
-docker run -d --network bridged-net \
+docker run -d --network <net> \
     --platform linux/amd64 \
     --ulimit core=-1 \
     --restart always \
@@ -192,7 +192,7 @@ The End-User License Agreement (EULA) must be accepted before the server can sta
 
 Then to start your server:
 ```
-./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm]
+./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm] [--network <net>]
 ```
 You can interact with the server via your browser: https://192.168.1.3/.
 Initial user name: admin, password: admin
@@ -205,7 +205,7 @@ If you prefer running Docker directly:
 docker run -d --platform linux/amd64 --name=cs3 -h cs3 \
     --ulimit core=-1 \
     --restart always \
-    --network bridged-net \
+    --network <net> \
     --mount type=bind,source=/var/crash,target=/var/crash \
     -e NSP_ACCEPT_EULA="Yes" \
     --ip 192.168.1.3 \
@@ -217,7 +217,7 @@ docker run -d --platform linux/amd64 --name=cs3 -h cs3 \
 To upgrade the server, use the same parameters as for start, but with the new version.
 
 ```
-./upgrade.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm]
+./upgrade.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm] [--network <net>]
 ```
 The version and IP are only examples
 ### Backup management
@@ -368,7 +368,7 @@ docker swarm join --token <token> <IP_of_master>:2377
 To start the Enterprise Server as a swarm service use the scripts with the `--swarm` option.
 ```bash
 ./user-scripts/start-host-es.sh --swarm
-./start.py --swarm --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --accept-eula=Yes
+./start.py --swarm --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --accept-eula=Yes [--network <net>]
 ```
 Remove a node from the cluster with:
 ```bash
