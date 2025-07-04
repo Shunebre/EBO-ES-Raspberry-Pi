@@ -20,25 +20,13 @@ docker pull ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
 
 ### Dependencies
 Install Docker and QEMU emulation support so the amd64 image works on Raspberry Pi OS.\
-Eseguire i comandi uno alla volta, attendendo il completamento di ognuno prima di proseguire:
+È possibile eseguire i comandi in successione utilizzando `&&` così che ognuno venga eseguito solo dopo il completamento di quello precedente:
 
 ```bash
-sudo apt update -y
-```
-
-```bash
-sudo apt full-upgrade -y
-```
-
-```bash
-sudo apt install -y docker.io
-```
-
-```bash
-sudo apt install -y qemu-user-binfmt
-```
-
-```bash
+sudo apt update -y && \
+sudo apt full-upgrade -y && \
+sudo apt install -y docker.io && \
+sudo apt install -y qemu-user-binfmt && \
 sudo apt install -y qemu-user-static
 ```
 
