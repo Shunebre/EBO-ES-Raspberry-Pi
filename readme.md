@@ -55,7 +55,7 @@ After downloading the image with `docker pull`, start the Enterprise Server
 using the provided script or the command shown below.
 
 ```bash
-./user-scripts/start-host-es.sh [--swarm] [--network <net>]
+./user-scripts/start-host-es.sh [--network <net>]
 ```
 
 This script simply runs:
@@ -69,7 +69,6 @@ docker run -d --network <net> \
     --mount source=EnterpriseServer-db,target=/var/EBO \
 ghcr.io/schneiderelectricbuildings/ebo-enterprise-server:7.0.2.348
 ```
-When called with `--swarm`, the script creates an equivalent `docker service`.
 
 Before running the script, make sure `/var/crash` exists on the host:
 
@@ -180,7 +179,7 @@ The End-User License Agreement (EULA) must be accepted before the server can sta
 
 Then to start your server:
 ```
-./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm] [--network <net>]
+./start.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--network <net>]
 ```
 You can interact with the server via your browser: https://192.168.1.3/.
 Initial user name: admin, password: admin
@@ -205,7 +204,7 @@ docker run -d --platform linux/amd64 --name=cs3 -h cs3 \
 To upgrade the server, use the same parameters as for start, but with the new version.
 
 ```
-./upgrade.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--swarm] [--network <net>]
+./upgrade.py --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --type=ebo-enterprise-server --accept-eula=Yes [--network <net>]
 ```
 The version and IP are only examples
 ### Backup management
@@ -343,29 +342,6 @@ The tcp-port is 14444 on the host machine.
 It runs the example version 7.0.2.348.
 It is namned cs1.
 
-## Docker Swarm
-Docker Swarm allows you to manage multiple Raspberry Pi nodes as a single cluster.
-Initialize the swarm on the master node:
-```bash
-docker swarm init --advertise-addr <IP_of_master>
-```
-Join additional nodes as workers using the join token printed by the init command:
-```bash
-docker swarm join --token <token> <IP_of_master>:2377
-```
-To start the Enterprise Server as a swarm service use the scripts with the `--swarm` option.
-```bash
-./user-scripts/start-host-es.sh --swarm
-./start.py --swarm --name=cs3 --version=7.0.2.348 --ip=192.168.1.3 --accept-eula=Yes [--network <net>]
-```
-Remove a node from the cluster with:
-```bash
-docker swarm leave
-```
-Services can be scaled with:
-```bash
-docker service scale <service>=<N>
-```
 
 ## GraphDB
 For containers we use the standard GraphDB from https://hub.docker.com/r/ontotext/graphdb/ to get a license contact https://www.ontotext.com/.

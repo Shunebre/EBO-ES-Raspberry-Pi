@@ -1,14 +1,10 @@
 #!/bin/bash
 
 # arguments
-# $1 ip or --swarm
+# $1 ip address
 ip=$1
 name=graphdb
 
-if [ "$1" = "--swarm" ]; then
-    docker service create --name=$name --hostname $name --network bridged-net ontotext/graphdb:10.2.4
-else
-    docker run -d --name=$name --restart always -h $name --ip $ip --network bridged-net ontotext/graphdb:10.2.4
-    sleep 10
-    docker logs $name
-fi
+docker run -d --name=$name --restart always -h $name --ip $ip --network bridged-net ontotext/graphdb:10.2.4
+sleep 10
+docker logs $name
