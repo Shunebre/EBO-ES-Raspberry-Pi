@@ -47,8 +47,7 @@ def run():
     no_proxy=args.no_proxy
     image = f'ghcr.io/schneiderelectricbuildings/{server_type}:{version}'
     db_vol = f'{name}-db'
--    db_folder = '/var/ebo'
-+    db_folder = '/var/sbo/db'
+    db_folder = '/var/sbo/db'  # modificato da /var/ebo
     proxy = ''
     if http_proxy:
         proxy += f'-e http_proxy={http_proxy} '
@@ -82,7 +81,7 @@ def run():
         f'{proxy}'\
         f'--ip {ip} ' \
         f'--mount source={db_vol},target={db_folder} ' \
-+        f'--mount source={name}-sbo,target=/var/sbo '
+        f'--mount source={name}-sbo,target=/var/sbo '  # aggiunto mount /var/sbo
     if ca_folder:
         cmd += f'--mount type=bind,source={ca_folder},target=/usr/local/share/ca-certificates '
     if dns:
