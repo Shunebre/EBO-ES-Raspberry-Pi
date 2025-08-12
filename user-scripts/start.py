@@ -12,6 +12,7 @@ def exe(cmd):
         print('Exception', e)
         raise
 
+
 def get_arguments(description):
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--name', '-n', required=True, help='name of the container')
@@ -23,12 +24,17 @@ def get_arguments(description):
      start you need to accept eula.
     To accept use: --accept-eula=Yes
     You get link to eula if you start without 'Yes' and check with docker logs''', )
-    parser.add_argument('--ca-folder', default=None, help='folder where containers get their ca certificates')
-    parser.add_argument('--dns', default=None, help="optional dns server address for when container can't reach host dns, because of, for example, VPN")
+    parser.add_argument('--ca-folder', default=None, help='folder where ' \
+        'containers get their ca certificates')
+    parser.add_argument('--dns', default=None, help="optional dns server" \
+        "address for when container can't reach host dns, because of, for example, VPN")
     parser.add_argument('--network', default='bridged-net', help='Docker network to attach to')
-    parser.add_argument('--http-proxy', default=None, help="optional http proxy if not given the host environment variables http_proxy or HTTP_PROXY will be used ")
-    parser.add_argument('--https-proxy', default=None, help="optional https proxy if not given the host environment variables https_proxy or HTTPS_PROXY will be used ")
-    parser.add_argument('--no-proxy', default=None, help="optional no proxy if not given the host environment variables no_proxy or NO_PROXY will be used ")
+    parser.add_argument('--http-proxy', default=None, help="optional http proxy " \
+        "if not given the host environment variables http_proxy or HTTP_PROXY will be used ")
+    parser.add_argument('--https-proxy', default=None, help="optional https proxy " \
+        "if not given the host environment variables https_proxy or HTTPS_PROXY will be used ")
+    parser.add_argument('--no-proxy', default=None, help="optional no proxy " \
+        "if not given the host environment variables no_proxy or NO_PROXY will be used ")
     return parser.parse_args()
 
 def run():
@@ -47,7 +53,7 @@ def run():
     no_proxy=args.no_proxy
     image = f'ghcr.io/schneiderelectricbuildings/{server_type}:{version}'
     db_vol = f'{name}-db'
-    db_folder = '/var/sbo/db'  # modificato da /var/ebo
+    db_folder = '/var/ebo'
     proxy = ''
     if http_proxy:
         proxy += f'-e http_proxy={http_proxy} '
@@ -80,8 +86,7 @@ def run():
         f'-e Semantic_Db_URL="{graphdb}" ' \
         f'{proxy}'\
         f'--ip {ip} ' \
-        f'--mount source={db_vol},target={db_folder} ' \
-        f'--mount source={name}-sbo,target=/var/sbo '  # aggiunto mount /var/sbo
+        f'--mount source={db_vol},target={db_folder} '
     if ca_folder:
         cmd += f'--mount type=bind,source={ca_folder},target=/usr/local/share/ca-certificates '
     if dns:
